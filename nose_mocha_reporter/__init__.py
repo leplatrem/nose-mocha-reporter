@@ -80,10 +80,10 @@ class MochaReporterPlugin(Plugin):
         if duration > 10:
             elapsed = "(%dms)" % duration
 
-        if duration > 10:
-            elapsed = colored(elapsed, Colors.YELLOW)
-        elif duration > 50:
+        if duration > 50:
             elapsed = colored(elapsed, Colors.RED)
+        elif duration > 10:
+            elapsed = colored(elapsed, Colors.YELLOW)
 
         msg = u"{mark} {spec} {elapsed}\n".format(mark=colored(symbol, color),
                                                   spec=spec,
