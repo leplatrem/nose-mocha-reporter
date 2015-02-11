@@ -1,0 +1,5 @@
+recursive-include nose-mocha-reporter *
+global-exclude *.pyc
+include LICENSE
+include README.rst
+include VERSION
