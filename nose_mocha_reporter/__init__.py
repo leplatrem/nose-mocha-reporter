@@ -48,12 +48,12 @@ class MochaReporterPlugin(Plugin):
         if test_file not in self._files:
             self._files.append(test_file)
             test_file = self.beautify_file(test_file)
-            self.stream.write("\n" + test_file + "\n")
+            self.stream.write("\b \n" + test_file + "\n")
 
         if test_suite not in self._suites:
             self._suites.append(test_suite)
             test_suite = self.beautify_suite(test_suite)
-            self.stream.write("\n   " + test_suite + "\n")
+            self.stream.write("\b \n   " + test_suite + "\n")
 
         spec = test.test.shortDescription()
         if not spec:
