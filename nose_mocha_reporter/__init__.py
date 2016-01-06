@@ -18,7 +18,6 @@ def colored(text, color):
     return color + text + Colors.ENDC
 
 
-
 class MochaReporterPlugin(Plugin):
     """Mocha reporter for nose"""
 
@@ -48,12 +47,12 @@ class MochaReporterPlugin(Plugin):
         if test_file not in self._files:
             self._files.append(test_file)
             test_file = self.beautify_file(test_file)
-            self.stream.write("\b \n" + test_file + "\n")
+            self.stream.write(("\b \n" + test_file + "\n").encode('utf-8'))
 
         if test_suite not in self._suites:
             self._suites.append(test_suite)
             test_suite = self.beautify_suite(test_suite)
-            self.stream.write("\b \n   " + test_suite + "\n")
+            self.stream.write(("\b \n   " + test_suite + "\n").encode('utf-8'))
 
         spec = test.test.shortDescription()
         if not spec:
@@ -88,7 +87,7 @@ class MochaReporterPlugin(Plugin):
         msg = u"{mark} {spec} {elapsed}\n".format(mark=colored(symbol, color),
                                                   spec=spec,
                                                   elapsed=elapsed)
-        self.stream.write("\b      " + msg)
+        self.stream.write(("\b      " + msg).encode('utf-8'))
 
     def beautify_file(self, test_file):
         groupname = test_file.replace('test_', '').replace('_', ' ')
@@ -96,7 +95,7 @@ class MochaReporterPlugin(Plugin):
 
     def beautify_suite(self, test_suite):
         test_suite = test_suite.replace("Test", "")
-        words = re.sub("([a-z])([A-Z])","\g<1> \g<2>", test_suite)
+        words = re.sub("([a-z])([A-Z])", "\g<1> \g<2>", test_suite)
         return words.capitalize()
 
     def beautify_method(self, method):
