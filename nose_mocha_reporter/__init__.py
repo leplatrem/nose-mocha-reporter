@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 import re
 import time
+import sys
+
+PY2 = sys.version_info[0] == 2
 
 from nose.plugins import Plugin
 
@@ -16,6 +19,12 @@ class Colors:
 
 def colored(text, color):
     return color + text + Colors.ENDC
+
+
+def encode_for_stream(message):
+    if PY2:
+        message = message.encode('utf-8')
+    return message
 
 
 class MochaReporterPlugin(Plugin):
@@ -47,12 +56,14 @@ class MochaReporterPlugin(Plugin):
         if test_file not in self._files:
             self._files.append(test_file)
             test_file = self.beautify_file(test_file)
-            self.stream.write(("\b \n" + test_file + "\n").encode('utf-8'))
+            message = "\b \n" + test_file + "\n"
+            self.stream.write(encode_for_stream(message))
 
         if test_suite not in self._suites:
             self._suites.append(test_suite)
             test_suite = self.beautify_suite(test_suite)
-            self.stream.write(("\b \n   " + test_suite + "\n").encode('utf-8'))
+            message = "\b \n   " + test_suite + "\n"
+            self.stream.write(encode_for_stream(message))
 
         spec = test.test.shortDescription()
         if not spec:
@@ -87,7 +98,8 @@ class MochaReporterPlugin(Plugin):
         msg = u"{mark} {spec} {elapsed}\n".format(mark=colored(symbol, color),
                                                   spec=spec,
                                                   elapsed=elapsed)
-        self.stream.write(("\b      " + msg).encode('utf-8'))
+        message = "\b      " + msg
+        self.stream.write(encode_for_stream(message))
 
     def beautify_file(self, test_file):
         groupname = test_file.replace('test_', '').replace('_', ' ')
